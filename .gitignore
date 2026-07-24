@@ -1,0 +1,7 @@
+# 采集层原始素材与产物，见 docs/skill-build-checklist.md 阶段 1
+data/
+
+# 学习者状态（练习记录、掌握度事件流）——绝不入库，见阶段 4
+learner-state/
+*.env
+.env

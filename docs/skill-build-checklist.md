@@ -9,11 +9,11 @@
 ## 阶段 0：选题与边界（0.5 天，纸面工作）
 
 ### 任务
-- [ ] 用能力雷达四标准过一遍选题：高密度素材 / 有明确"老师" / 痛点尖锐 / 版权可控
-- [ ] 确认素材授权。[CKA] kubernetes.io 文档 = CC BY 4.0；CNCF curriculum repo 公开。红线：不碰 Killer.sh 题库、不碰真题回忆（违反 NDA），所有练习题原创
-- [ ] 选角色模式：expert（查证）/ mentor（带练）/ consultant（诊断建议）/ practitioner（模板产出）。[CKA] mentor——实操考试，查证模式没有价值
-- [ ] 写下安全与范围边界（一段话）。[CKA] "备考辅助，不保证通过；判卷基于本地环境，与真实考试环境可能有版本差异；不提供真题"
-- [ ] 定目标用户和触发场景清单（≥10 条用户会说的原话，中英双语），这是后面 description 的原料
+- [x] 用能力雷达四标准过一遍选题：高密度素材 / 有明确"老师" / 痛点尖锐 / 版权可控
+- [x] 确认素材授权。[CKA] kubernetes.io 文档 = CC BY 4.0；CNCF curriculum repo 公开。红线：不碰 Killer.sh 题库、不碰真题回忆（违反 NDA），所有练习题原创
+- [x] 选角色模式：expert（查证）/ mentor（带练）/ consultant（诊断建议）/ practitioner（模板产出）。[CKA] mentor——实操考试，查证模式没有价值
+- [x] 写下安全与范围边界（一段话）。[CKA] "备考辅助，不保证通过；判卷基于本地环境，与真实考试环境可能有版本差异；不提供真题"
+- [x] 定目标用户和触发场景清单（≥10 条用户会说的原话，中英双语），这是后面 description 的原料
 
 ### 产物
 - `docs/DECISIONS.md`：选题评分、角色选择、边界声明、触发场景清单
@@ -27,12 +27,12 @@
 ## 阶段 1：采集层 Capture（CKA 约 3-5 天）
 
 ### 任务
-- [ ] 建仓库骨架：`SKILL.md` / `references/` / `scripts/` / `assets/` / `docs/`（对齐 skill-creator 官方结构）
-- [ ] 拉取源材料并版本固定。[CKA] clone kubernetes/website 指定 release 分支，记录 K8s 版本号（考纲跟版本走，写进 manifest）
-- [ ] 视频/音频类：ASR 转写带时间戳（你的 SenseVoice 管线）；视频跑 vision 标记板书/演示片段，选帧压 WebP。[CKA] 无视频，跳过
-- [ ] PDF 类：OCR 逐物理页建记录，空白页也记录（保证页码引用永远对齐）
-- [ ] 能力与配置分离：所有外部 provider 走环境变量（API_KEY / BASE_URL / MODEL），不写死，不提交 .env
-- [ ] 每个采集步骤幂等：产物存在且输入未变则跳过，进度写入 progress json
+- [x] 建仓库骨架：`SKILL.md` / `references/` / `scripts/` / `assets/` / `docs/`（对齐 skill-creator 官方结构）
+- [x] 拉取源材料并版本固定。[CKA] clone kubernetes/website 指定 release 分支，记录 K8s 版本号（考纲跟版本走，写进 manifest）
+- [x] 视频/音频类：ASR 转写带时间戳（你的 SenseVoice 管线）；视频跑 vision 标记板书/演示片段，选帧压 WebP。[CKA] 无视频，跳过
+- [ ] PDF 类：OCR 逐物理页建记录，空白页也记录（保证页码引用永远对齐）——CKA curriculum PDF 为机读文本非扫描件，暂不需要 OCR；留待阶段 2 处理证据定位符时复核
+- [x] 能力与配置分离：所有外部 provider 走环境变量（API_KEY / BASE_URL / MODEL），不写死，不提交 .env。[CKA] `check_curriculum_version.py` 的 GitHub 访问支持可选 `GITHUB_TOKEN` 环境变量，无硬编码密钥
+- [ ] 每个采集步骤幂等：产物存在且输入未变则跳过，进度写入 progress json——尚未实现，当前拉取为一次性 clone，断点续采留待后续
 
 ### 产物
 - `data/`（gitignore）：原始素材 + 采集产物 + `source-manifest.json`（来源、版本、日期、license）
