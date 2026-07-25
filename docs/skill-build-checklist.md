@@ -35,7 +35,8 @@
 - [ ] 每个采集步骤幂等：产物存在且输入未变则跳过，进度写入 progress json——尚未实现，当前拉取为一次性 clone，断点续采留待后续
 
 ### 产物
-- `data/`（gitignore）：原始素材 + 采集产物 + `source-manifest.json`（来源、版本、日期、license）
+- `data/`（gitignore）：原始素材 + 采集产物
+- `source-manifest.json`（仓库根目录，入库版本锚点）：来源、版本、日期、license
 
 ### 验收标准
 - 断点重跑不会重复昂贵操作

@@ -1,0 +1,59 @@
+{
+  "generated_at": "2026-07-24",
+  "generated_by": "scripts/check_curriculum_version.py (manual initial capture)",
+  "exam": {
+    "name": "Certified Kubernetes Administrator (CKA)",
+    "curriculum_version": "1.35",
+    "k8s_version": "1.35",
+    "domains": [
+      { "name": "Storage", "weight_pct": 10 },
+      { "name": "Workloads and Scheduling", "weight_pct": 15 },
+      { "name": "Services and Networking", "weight_pct": 20 },
+      { "name": "Cluster Architecture, Installation and Configuration", "weight_pct": 25 },
+      { "name": "Troubleshooting", "weight_pct": 30 }
+    ]
+  },
+  "sources": [
+    {
+      "id": "cncf-curriculum-cka",
+      "name": "CNCF CKA Exam Curriculum",
+      "type": "curriculum",
+      "source_repo": "https://github.com/cncf/curriculum",
+      "file": "CKA_Curriculum_v1.35.pdf",
+      "local_path": "data/cncf-curriculum/CKA_Curriculum_v1.35.pdf",
+      "version": "v1.35",
+      "commit": "f6c7667265fef850daaf93b4e19e919552c67d8c",
+      "commit_date": "2026-03-14",
+      "fetched_at": "2026-07-24",
+      "sha256": "634b793704485c2ac424a90902e0f8b28f7348a49814393434f808e3e78ec18c",
+      "license": "CC BY 4.0+",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "license_evidence": "root README.md: 'The Curriculum is available under the CC-BY 4.0+ License.'"
+    },
+    {
+      "id": "kubernetes-website-docs",
+      "name": "kubernetes/website (kubernetes.io documentation)",
+      "type": "documentation",
+      "source_repo": "https://github.com/kubernetes/website",
+      "branch": "release-1.35",
+      "local_path": "data/kubernetes-website/",
+      "version": "release-1.35",
+      "commit": "be897babb9149b808e2ab8ed5367e5d0651b3dca",
+      "commit_date": "2026-05-19",
+      "fetched_at": "2026-07-24",
+      "license": "CC BY 4.0",
+      "license_url": "https://github.com/kubernetes/website/blob/release-1.35/LICENSE",
+      "license_evidence": "repo LICENSE file: 'Attribution 4.0 International' (docs content; code samples under Apache-2.0 per CONTRIBUTING.md, not used verbatim here)"
+    }
+  ],
+  "excluded_sources": [
+    {
+      "name": "Killer.sh",
+      "reason": "commercial mock-exam question bank, no redistribution license — hard red line per docs/DECISIONS.md"
+    },
+    {
+      "name": "real CKA exam questions / candidate recollections",
+      "reason": "violates Linux Foundation exam NDA — all practice questions in this skill are original"
+    }
+  ]
+}

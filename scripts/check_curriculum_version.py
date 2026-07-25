@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""哨兵脚本：对比本地 data/source-manifest.json 记录的 CKA curriculum 版本
+"""哨兵脚本：对比本地 source-manifest.json 记录的 CKA curriculum 版本
 与 https://github.com/cncf/curriculum 上游最新版本，版本不一致时报警。
 
 用法：
     python3 scripts/check_curriculum_version.py
-    python3 scripts/check_curriculum_version.py --manifest data/source-manifest.json --json
+    python3 scripts/check_curriculum_version.py --manifest source-manifest.json --json
 
 退出码：
     0 - 版本一致，或成功确认无需处理
@@ -21,7 +21,9 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
-REPO_API_URL = "https://api.github.com/repos/cncf/curriculum/contents/"
+REPO_CONTENTS_URL = "https://api.github.com/repos/cncf/curriculum/contents/{path}"
+# 依次尝试的目录：根目录（历史布局）、cka/ 子目录（上游正在按考试类型重组）
+CANDIDATE_DIRS = ("", "cka")
 CKA_PDF_PATTERN = re.compile(r"^CKA_Curriculum_v([\d.]+)\.pdf$", re.IGNORECASE)
 
 
@@ -36,25 +38,43 @@ def load_local_version(manifest_path: Path) -> str:
         ) from exc
 
 
-def fetch_upstream_version() -> str:
-    req = urllib.request.Request(REPO_API_URL, headers={"User-Agent": "cka-mentor-skill-sentinel"})
+def _list_dir(path: str) -> list:
+    req = urllib.request.Request(
+        REPO_CONTENTS_URL.format(path=path), headers={"User-Agent": "cka-mentor-skill-sentinel"}
+    )
     token = os.environ.get("GITHUB_TOKEN")
     if token:
         req.add_header("Authorization", f"Bearer {token}")
 
     with urllib.request.urlopen(req, timeout=15) as resp:
-        entries = json.load(resp)
+        return json.load(resp)
 
-    for entry in entries:
-        match = CKA_PDF_PATTERN.match(entry.get("name", ""))
-        if match:
-            return match.group(1)
 
-    raise ValueError("上游仓库根目录未找到匹配 CKA_Curriculum_v*.pdf 的文件")
+def fetch_upstream_version() -> str:
+    checked = []
+    for directory in CANDIDATE_DIRS:
+        try:
+            entries = _list_dir(directory)
+        except urllib.error.HTTPError as exc:
+            if exc.code == 404:
+                checked.append(directory or "/")
+                continue
+            raise
+
+        for entry in entries:
+            match = CKA_PDF_PATTERN.match(entry.get("name", ""))
+            if match:
+                return match.group(1)
+        checked.append(directory or "/")
+
+    raise ValueError(
+        "上游仓库未找到匹配 CKA_Curriculum_v*.pdf 的文件（已尝试目录："
+        f"{', '.join(checked)}）"
+    )
 
 
 def main() -> int:
-    manifest_path = Path("data/source-manifest.json")
+    manifest_path = Path("source-manifest.json")
     as_json = False
     args = sys.argv[1:]
     i = 0
